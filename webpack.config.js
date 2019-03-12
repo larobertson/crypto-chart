@@ -3,8 +3,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const CompressionPlugin = require(‘compression-webpack-plugin’);
-const BrotliPlugin = require(‘brotli-webpack-plugin’);
+const CompressionPlugin = require("compression-webpack-plugin");
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 module.exports = {
   devServer: {
@@ -76,6 +76,19 @@ module.exports = {
     ]
   },
   plugins: [
+    new CompressionPlugin({
+      filename: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
+    new BrotliPlugin({
+      asset: "[path].br[query]",
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     new HtmlWebpackPlugin({
       title: "Render that Bundle",
       template: __dirname + "/client/index.html", //create index.html with js script
