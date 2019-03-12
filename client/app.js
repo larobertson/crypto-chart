@@ -4,14 +4,29 @@ import {Line} from 'react-chartjs-2';
 import Calendar from './calendar.js'
 import {Navbar, Container, Row, Col} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import moment from 'moment';
 
+const header = {
+  borderBottom: 'black',
+  paddingBottom: '30px'
+}
 
+const footer = {
+  marginTop: '40px',
+  paddingTop: '30px',
+  paddingBottom: '30px',
+  borderTop: '1px solid green',
+  fontSize: '10px',
+  color: 'black'
+};
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      from: '',
+      to: '',
       currentValue: 0,
       date: null,
       focused: null,
@@ -66,8 +81,51 @@ class App extends React.Component {
     .catch((err) => console.log('error in axios request ', err))
   }
 
-  handleClick (cb) {
+  handleClick (to, from) {
+    let fromRequest = moment(from, "LLLL").format("YYYY-MM-DD")
+    let toRequest = moment(to, "LLLL").format("YYYY-MM-DD")
+    this.setState({
+      from: fromRequest,
+      to: toRequest
+    })
+  }
 
+  componentDidUpdate (prevProps, prevState) {
+    if ((this.state.to !== prevState.to) || (this.state.from !== prevState.from)){
+      axios.get('/bitDates', {
+        params: {
+          from: this.state.from,
+          to: this.state.to
+        }
+      })
+      .then((payload) => {
+        let month = payload.data.bpi;
+        let labels = [];
+        let prices = [];
+        for (let day in month) {
+          labels.push(day);
+          prices.push(month[day])
+        }
+        let data = {
+          labels: labels,
+          datasets: [{
+            label: 'Price (USD)',
+            fill: 'false',
+            backgroundColor: 'rgb(60, 68, 76)',
+            borderColor: 'rgb(60, 68, 76)',
+            borderWidth: 3,
+            data: prices,
+          }]
+        }
+        return data
+      })
+      .then((data) => {
+        this.setState({
+          data: data
+        })
+      })
+      .catch((err) => console.log('error in axios request ', err))
+    } 
   }
 
 
@@ -75,9 +133,9 @@ class App extends React.Component {
     return (
     <div>
     <div>
-        <Navbar bg="success" text="white" className="justify-content-center">
+        <Navbar bg="success" style={header} className="justify-content-center">
           <Navbar.Brand href="#home">
-            <h2>Navigate Bitcoin Prices</h2>
+            <h2 text="white">Navigate Bitcoin Prices</h2>
           </Navbar.Brand>
         </Navbar>
       </div>
@@ -94,13 +152,19 @@ class App extends React.Component {
 
       <div className="calendars" className="justify-content-center">
       <Container className="justify-content-center">
-      <Row className="justify-content-md-center">
-      <Col md="auto">
-        <Calendar click={this.handleClick.bind(this)}/>
-      </Col>
-      </Row>
+        <Row className="justify-content-md-center">
+          <Col md="auto">
+            <Calendar click={this.handleClick.bind(this)}/>
+          </Col>
+        </Row>
       </Container>
       </div>
+
+      <Navbar bg="light" style={footer} className="footer">
+            <a href="https://www.coindesk.com/price/bitcoin">
+            “Powered by CoinDesk”
+            </a>
+      </Navbar>
     </div>
     )
   }

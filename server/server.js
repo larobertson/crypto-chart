@@ -24,6 +24,14 @@ app.get('/bitHistory', (req, res) => {
   })
 })
 
+app.get('/bitDates', (req, res) => {
+  let from = req.query.from;
+  let to = req.query.to;
+  request.getDates(from, to, (data) => {
+    res.send(data)
+  })
+})
+
 
 
 app.listen(port, () => {

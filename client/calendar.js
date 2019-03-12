@@ -96,7 +96,9 @@ export default class Calendar extends React.Component {
                   <Button variant="success" onClick={this.handleResetClick}>Reset</Button>
                 </Col>
                 <Col md="auto">
-                  <Button variant="success" onClick={() => console.log('pass me some props dude!')}>Select Dates</Button>
+                  <Button
+                  variant="success"
+                  onClick={() => {this.props.click(this.state.to, this.state.from)}}>Select Dates</Button>
                 </Col>
               </Row>
               </Card.Footer>

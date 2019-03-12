@@ -3,6 +3,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require(‘compression-webpack-plugin’);
+const BrotliPlugin = require(‘brotli-webpack-plugin’);
 
 module.exports = {
   devServer: {

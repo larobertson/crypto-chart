@@ -13,7 +13,14 @@ const getHistory = (cb) => {
   .catch((err) => console.log('error getting history from API: ', err))
 }
 
+const getDates = (start, end, cb) => {
+  rp(`https://api.coindesk.com/v1/bpi/historical/close.json?start=${start}&end=${end}`)
+  .then((res) => cb(res))
+  .catch((err) => console.log('error getting prices for these dates', err))
+}
+
 module.exports = {
   getCurrent,
-  getHistory
+  getHistory,
+  getDates
 }
