@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import {Line} from 'react-chartjs-2';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
+import Calendar from './startDate.js'
+import {Navbar, Container, Row, Col} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+
+
 
 
 class App extends React.Component {
@@ -29,7 +32,7 @@ class App extends React.Component {
   componentDidMount () {
     axios.get('/bitcoin')
     .then((payload) => {
-      console.log(payload.data.bpi)
+      console.log('today\'s data', payload.data.bpi)
     })
     .catch((err) => console.log('error in axios request', err))
 
@@ -56,7 +59,6 @@ class App extends React.Component {
       return data
     })
     .then((data) => {
-      console.log('check this out', data)
       this.setState({
         data: data
       })
@@ -67,9 +69,16 @@ class App extends React.Component {
 
   render() {
     return (
-    
     <div>
-      <DayPicker/>
+    <div>
+        <Navbar bg="success" className="justify-content-center">
+          <Navbar.Brand href="#home">
+            <h2>Navigate Bitcoin Prices</h2>
+          </Navbar.Brand>
+        </Navbar>
+      </div>
+
+
 
       <div>
         <Line 
@@ -78,7 +87,16 @@ class App extends React.Component {
          height={500}
          width={700}/>
       </div>
-      Hello World
+      <div className="calendars" className="justify-content-center">
+      <Container className="justify-content-center">
+      <Row className="justify-content-md-center">
+      <Col md="auto">
+        <Calendar/>
+        <Button variant="success">Select Dates</Button>
+      </Col>
+      </Row>
+      </Container>
+      </div>
     </div>
     )
   }
