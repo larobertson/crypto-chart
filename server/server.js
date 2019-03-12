@@ -1,16 +1,31 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const request = require('./api.js')
 const app = express();
 
-const port = process.env.PORT || 3000;
-app.use(express.static("dist"));
+const port = process.env.PORT || 4000;
+app.use('/', express.static('dist'));
 app.use(
   bodyParser.json({
     strict: false
   })
 );
 
+app.get('/bitcoin', (req, res) => {
+  request.getCurrent((data) => {
+    res.send(data)
+  });
+})
+
+app.get('/bitHistory', (req, res) => {
+  request.getHistory((data) => {
+    res.send(data)
+  })
+})
+
+
+
 app.listen(port, () => {
-  console.log(`The shenanigans have started on aisle ${port}`);
+  console.log(`Listening on port ${port}`);
 });
