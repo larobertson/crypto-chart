@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "watch": "rimraf dist && webpack --watch",
-    "start": "webpack-dev-server  --open --color ",
+    "dev-build": "webpack-dev-server  --open --color ",
     "build": "rimraf dist &&  webpack --progress --profile",
     "server": "nodemon server/server.js",
-    "server-prod": "node server/server.js"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
