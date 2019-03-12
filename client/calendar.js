@@ -1,4 +1,6 @@
 import React from 'react';
+import {Button, Container, Row, Col} from 'react-bootstrap';
+import {CardDeck, Card} from 'react-bootstrap';
 
 import Helmet from 'react-helmet';
 
@@ -62,16 +64,23 @@ export default class Calendar extends React.Component {
     const selectedDays = [from, { from, to: enteredTo }];
     return (
       <div>
-        <DayPicker
-          className="Range"
-          numberOfMonths={2}
-          fromMonth={from}
-          selectedDays={selectedDays}
-          disabledDays={disabledDays}
-          modifiers={modifiers}
-          onDayClick={this.handleDayClick}
-          onDayMouseEnter={this.handleDayMouseEnter}
-        />
+        <CardDeck>
+          <Card>
+            <Card.Body>
+              <Card.Header className="bg-success" text="white">Select Dates</Card.Header>
+              <Card.Text>
+                <DayPicker
+                  className="Range"
+                  numberOfMonths={2}
+                  fromMonth={from}
+                  selectedDays={selectedDays}
+                  disabledDays={disabledDays}
+                  modifiers={modifiers}
+                  onDayClick={this.handleDayClick}
+                  onDayMouseEnter={this.handleDayMouseEnter}
+                />
+              </Card.Text>
+            </Card.Body>
         <div>
           {!from && !to && 'Please select the first day.'}
           {from && !to && 'Please select the last day.'}
@@ -81,11 +90,22 @@ export default class Calendar extends React.Component {
                 ${to.toLocaleDateString()}`}{' '}
           {from &&
             to && (
-              <button className="link" onClick={this.handleResetClick}>
-                Reset
-              </button>
+              <Card.Footer>
+              <Row className="justify-content-md-center">
+                <Col md="auto">
+                  <Button variant="success" onClick={this.handleResetClick}>Reset</Button>
+                </Col>
+                <Col md="auto">
+                  <Button variant="success" onClick={() => console.log('pass me some props dude!')}>Select Dates</Button>
+                </Col>
+              </Row>
+              </Card.Footer>
+            
+
             )}
         </div>
+        </Card>
+        </CardDeck>
         <Helmet>
           <style>{`
   .Range .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {

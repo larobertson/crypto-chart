@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Line} from 'react-chartjs-2';
-import Calendar from './startDate.js'
+import Calendar from './calendar.js'
 import {Navbar, Container, Row, Col} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 
@@ -66,18 +66,21 @@ class App extends React.Component {
     .catch((err) => console.log('error in axios request ', err))
   }
 
+  handleClick (cb) {
+
+  }
+
 
   render() {
     return (
     <div>
     <div>
-        <Navbar bg="success" className="justify-content-center">
+        <Navbar bg="success" text="white" className="justify-content-center">
           <Navbar.Brand href="#home">
             <h2>Navigate Bitcoin Prices</h2>
           </Navbar.Brand>
         </Navbar>
       </div>
-
 
 
       <div>
@@ -87,12 +90,13 @@ class App extends React.Component {
          height={500}
          width={700}/>
       </div>
+
+
       <div className="calendars" className="justify-content-center">
       <Container className="justify-content-center">
       <Row className="justify-content-md-center">
       <Col md="auto">
-        <Calendar/>
-        <Button variant="success">Select Dates</Button>
+        <Calendar click={this.handleClick.bind(this)}/>
       </Col>
       </Row>
       </Container>
